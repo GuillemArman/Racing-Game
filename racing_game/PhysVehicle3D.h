@@ -54,4 +54,6 @@ public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
+	btRaycastVehicle* vehicle2;
+
 };

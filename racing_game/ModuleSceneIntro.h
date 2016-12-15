@@ -22,13 +22,22 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 	void CreateLinearCircuit(vec3 pos);
+	void ColorLinearCircuit(vec3 pos);
+
 	void Create_Vertical_Small_Wall(vec3 pos);
 	void Create_Vertical_Large_Wall(vec3 pos);
+
+	void Color_Vertical_Small_Wall(vec3 pos);
+	void Color_Vertical_Large_Wall(vec3 pos);
+
 	void Create_Horizontal_Large_Wall(vec3 pos);
 	void Create_Horizontal_Small_Wall(vec3 pos);
 
+	void Color_Horizontal_Large_Wall(vec3 pos);
+	void Color_Horizontal_Small_Wall(vec3 pos);
 
 	void CreateCircuit(vec3 pos);
+	void CreateCircuitColor(vec3 pos);
 
 public:
 	/*

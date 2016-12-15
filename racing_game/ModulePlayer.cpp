@@ -20,6 +20,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
+	VehicleInfo car2;
 
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 4);
@@ -32,6 +33,7 @@ bool ModulePlayer::Start()
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 6000.0f;
 
+
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
 	float wheel_radius = 0.6f;
@@ -42,12 +44,15 @@ bool ModulePlayer::Start()
 
 	float half_width = car.chassis_size.x*0.5f;
 	float half_length = car.chassis_size.z*0.5f;
+
 	
 	vec3 direction(0,-1,0);
 	vec3 axis(-1,0,0);
 	
 	car.num_wheels = 4;
 	car.wheels = new Wheel[4];
+
+	
 
 	// FRONT-LEFT ------------------------
 	car.wheels[0].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);
@@ -100,6 +105,9 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 0);
 	
+
+	
+
 	return true;
 }
 
@@ -152,6 +160,7 @@ update_status ModulePlayer::Update(float dt)
 		//vehicle = App->physics->AddVehicle(car);
 		vehicle->SetPos(0, 12, 0);
 		
+		
 
 	}
 
@@ -159,6 +168,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 
+	
 	vehicle->Render();
 
 	char title[80];
