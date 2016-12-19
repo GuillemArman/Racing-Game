@@ -20,11 +20,8 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 100.0f, 60.0f));
 	App->camera->LookAt(vec3(0, 0, 60));
 
-	
 	CreateCircuit(vec3(200, 0, 0));
 	
-	
-
 	return ret;
 }
 
@@ -53,24 +50,19 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	CreateCircuitColor(vec3(0, 0, 0));
 
-	
-
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-{
-}
-
+{}
 
 
 void ModuleSceneIntro::CreateLinearCircuit(vec3 pos)
 {
-	Cube left_limit(3, 8, 70);
+	Cube left_limit(3, 3, 70);
 	left_limit.SetPos(-pos.x, pos.y, pos.z);
 	
-
-	Cube right_limit(3, 8, 70);
+	Cube right_limit(3, 3, 70);
 	right_limit.SetPos((-pos+15).x, pos.y, pos.z);
 
 	App->physics->AddBody(left_limit, 100000);
@@ -80,90 +72,74 @@ void ModuleSceneIntro::CreateLinearCircuit(vec3 pos)
 
 void ModuleSceneIntro::ColorLinearCircuit(vec3 pos)
 {
-	Cube left_limit(3, 16, 70);
+	Cube left_limit(3, 5, 70);
 	left_limit.SetPos(-pos.x, pos.y, pos.z);
 	left_limit.Render();
 
-	Cube right_limit(3, 16, 70);
+	Cube right_limit(3, 5, 70);
 	right_limit.SetPos((-pos + 15).x, pos.y, pos.z);
 	right_limit.Render();
-
-	
-
 }
 
 void ModuleSceneIntro::Create_Vertical_Small_Wall(vec3 pos)
 {
-	Cube right_limit(3, 8, 15);
+	Cube right_limit(3, 5, 15);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 
 	App->physics->AddBody(right_limit, 100000);
-
 }
 
 void ModuleSceneIntro::Create_Vertical_Large_Wall(vec3 pos)
 {
-	Cube right_limit(3, 8, 70);
+	Cube right_limit(3, 5, 70);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 
 	App->physics->AddBody(right_limit, 100000);
-
 }
 
 void ModuleSceneIntro::Color_Vertical_Small_Wall(vec3 pos)
 {
-	Cube right_limit(3, 16, 15);
+	Cube right_limit(3, 5, 15);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 	right_limit.Render();
-	
-
 }
 
 void ModuleSceneIntro::Color_Vertical_Large_Wall(vec3 pos)
 {
-	Cube right_limit(3, 16, 70);
+	Cube right_limit(3, 5, 70);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 	right_limit.Render();
-	
-
 }
 
 void ModuleSceneIntro::Create_Horizontal_Large_Wall(vec3 pos)
 {
-	Cube right_limit(70, 8, 3);
+	Cube right_limit(70, 5, 3);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 
 	App->physics->AddBody(right_limit, 100000);
-
 }
 
 void ModuleSceneIntro::Create_Horizontal_Small_Wall(vec3 pos)
 {
-	Cube right_limit(15, 8, 3);
+	Cube right_limit(15, 5, 3);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 
 	App->physics->AddBody(right_limit, 100000);
-
 }
 
 void ModuleSceneIntro::Color_Horizontal_Large_Wall(vec3 pos)
 {
-	Cube right_limit(70, 16, 3);
+	Cube right_limit(70, 5, 3);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 	right_limit.Render();
-	
-
 }
 
 void ModuleSceneIntro::Color_Horizontal_Small_Wall(vec3 pos)
 {
-	Cube right_limit(15, 16, 3);
+	Cube right_limit(15, 5, 3);
 	right_limit.SetPos(pos.x, pos.y, pos.z);
 	right_limit.Render();
-	
-
 }
-
 
 void ModuleSceneIntro::CreateCircuit(vec3 pos)
 {
@@ -177,7 +153,6 @@ void ModuleSceneIntro::CreateCircuit(vec3 pos)
 	Create_Horizontal_Large_Wall(vec3(96, 0,168));
 	Create_Horizontal_Small_Wall(vec3(86, 0, 149));
 	Create_Horizontal_Small_Wall(vec3(100, 0, 149));
-
 }
 
 void ModuleSceneIntro::CreateCircuitColor(vec3 pos)
@@ -192,5 +167,4 @@ void ModuleSceneIntro::CreateCircuitColor(vec3 pos)
 	Color_Horizontal_Large_Wall(vec3(96, 0, 168));
 	Color_Horizontal_Small_Wall(vec3(86, 0, 149));
 	Color_Horizontal_Small_Wall(vec3(100, 0, 149));
-
 }

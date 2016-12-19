@@ -279,6 +279,19 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.add(comShape);
 
+	// Small square -------------------------------------------
+
+	//btCollisionShape* colShape2 = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.2f, 1.5f));
+	//shapes.add(colShape2);
+
+	//btTransform trans2;
+	//trans2.setIdentity();
+	//trans2.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y - 0.4f, info.chassis_offset.z + info.chassis_size.z*0.5f));
+
+	//comShape->addChildShape(trans2, colShape2);
+
+	// Big square -------------------------------------------
+
 	btCollisionShape* colShape = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
 	shapes.add(colShape);
 
@@ -287,6 +300,8 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	trans.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
 
 	comShape->addChildShape(trans, colShape);
+
+    // --------------------------------------------------------
 
 	btTransform startTransform;
 	startTransform.setIdentity();
