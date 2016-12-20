@@ -52,7 +52,7 @@ bool Application::Init()
 
 	while(item != NULL && ret == true)
 	{
-		ret = item->data->Init();
+		if (item->data->IsEnabled()) ret = item->data->Init();
 		item = item->next;
 	}
 
@@ -62,7 +62,7 @@ bool Application::Init()
 
 	while(item != NULL && ret == true)
 	{
-		ret = item->data->Start();
+		if (item->data->IsEnabled()) ret = item->data->Start();
 		item = item->next;
 	}
 	
@@ -92,7 +92,7 @@ update_status Application::Update()
 	
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->PreUpdate(dt);
+		if (item->data->IsEnabled()) ret = item->data->PreUpdate(dt);
 		item = item->next;
 	}
 
@@ -100,7 +100,7 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->Update(dt);
+		if (item->data->IsEnabled()) ret = item->data->Update(dt);
 		item = item->next;
 	}
 
@@ -108,7 +108,7 @@ update_status Application::Update()
 
 	while(item != NULL && ret == UPDATE_CONTINUE)
 	{
-		ret = item->data->PostUpdate(dt);
+		if (item->data->IsEnabled()) ret = item->data->PostUpdate(dt);
 		item = item->next;
 	}
 

@@ -24,11 +24,11 @@ bool ModulePlayer::Start()
 	car.chassis_size.Set(2, 2, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
 	car.mass = 500.0f;
-	car.suspensionStiffness = 15.88f;
+	car.suspensionStiffness = 5.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
 	car.maxSuspensionTravelCm = 1000.0f;
-	car.frictionSlip = 50.5;
+	car.frictionSlip = 100.5;
 	car.maxSuspensionForce = 6000.0f;
 
 	// Wheel properties ---------------------------------------
@@ -96,7 +96,8 @@ bool ModulePlayer::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(car);
+	vehicle = App->physics->AddVehicle(car, App->scene_intro);
+	vehicle->type = VEHICLE;
 	vehicle->SetPos(-3, 12, 0);
 	
 	return true;
@@ -138,28 +139,27 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		
 			if(vehicle->GetKmh()>5)
 			brake = BRAKE_POWER;
 			else
 			acceleration = MIN_ACCELERATION;
-		
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) 
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) 
 	{
-		vehicle->SetPos(0, 12, 0);
+		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+
+		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
+		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
+		vehicle->SetPos(x, 10, z);
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 
-	vehicle->Render();
-
-	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
-	App->window->SetTitle(title);
+	vehicle->Render(Red);
 
 	return UPDATE_CONTINUE;
 }

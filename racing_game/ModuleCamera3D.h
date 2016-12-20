@@ -28,6 +28,7 @@ public:
 
 private:
 
-	bool camera;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
+	float x;
+	bool positive;
 };

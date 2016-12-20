@@ -15,6 +15,9 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = vec3(0.0f, 0.0f, 5.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
+
+	positive = true;
+	x = 0;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -40,26 +43,44 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) camera = true;
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) camera = false;
+	if (App->scene_intro->num_players == 0)
+	{
+		if (positive)
+		{
+			if (x < 160)
+				x += 0.20f;
+			else
+				positive = false;
+		}
+		else
+		{
+			if (x > 0)
+				x -= 0.20f;
+			else
+				positive = true;
+		}
 
-	if (camera)
+		Position = { x, 80, -30 };
+		LookAt(vec3(x, 0, 50));
+	}
+
+	else if (App->scene_intro->num_players == 1)
 	{
 		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 15 * App->player->vehicle->vehicle->getForwardVector().getX();
-		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 8 * App->player->vehicle->vehicle->getUpAxis();
+		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 20 * App->player->vehicle->vehicle->getUpAxis();
 		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 15 * App->player->vehicle->vehicle->getForwardVector().getZ();
 
 		float p_x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
 		float p_z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
 		LookAt(vec3(p_x, 1, p_z));
 	}
-	else
+
+	else if (App->scene_intro->num_players == 2)
 	{
 		Position = { 0, 95, -50 };
 		LookAt(vec3(0, 0, 60));
 	}
 	
-
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

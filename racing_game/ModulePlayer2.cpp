@@ -96,7 +96,8 @@ bool ModulePlayer2::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(car);
+	vehicle = App->physics->AddVehicle(car, App->scene_intro);
+	vehicle->type = VEHICLE;
 	vehicle->SetPos(3, 12, 0);
 
 	return true;
@@ -124,6 +125,7 @@ update_status ModulePlayer2::Update(float dt)
 			acceleration = MAX_ACCELERATION;
 	}
 
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		if (turn < TURN_DEGREES)
@@ -143,23 +145,23 @@ update_status ModulePlayer2::Update(float dt)
 			brake = BRAKE_POWER;
 		else
 			acceleration = MIN_ACCELERATION;
-
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
 	{
-		vehicle->SetPos(0, 12, 0);
+		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+
+		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
+		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
+		vehicle->SetPos(x, 10, z);
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
 
-	vehicle->Render();
-
-	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
-	App->window->SetTitle(title);
+	vehicle->Render(Green);
 
 	return UPDATE_CONTINUE;
 }

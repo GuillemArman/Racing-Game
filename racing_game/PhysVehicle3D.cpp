@@ -12,6 +12,7 @@ VehicleInfo::~VehicleInfo()
 // ----------------------------------------------------------------------------
 PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info) : PhysBody3D(body), vehicle(vehicle), info(info)
 {
+	body->setUserPointer(this);
 }
 
 // ----------------------------------------------------------------------------
@@ -21,12 +22,11 @@ PhysVehicle3D::~PhysVehicle3D()
 }
 
 // ----------------------------------------------------------------------------
-void PhysVehicle3D::Render()
+void PhysVehicle3D::Render(Color color)
 {
 	Cylinder wheel;
 
 	wheel.color = Black;
-	
 
 	for(int i = 0; i < vehicle->getNumWheels(); ++i)
 	{
@@ -49,7 +49,7 @@ void PhysVehicle3D::Render()
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
 
-	chassis.color = Blue;
+	chassis.color = color;
 	chassis.Render();
 }
 

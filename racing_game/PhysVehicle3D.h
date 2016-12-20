@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PhysBody3D.h"
+#include "Color.h"
 #include "glmath.h"
 
 class btRaycastVehicle;
@@ -45,15 +46,14 @@ public:
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
 	~PhysVehicle3D();
 
-	void Render();
+	void Render(Color color);
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
+
 public:
 
 	VehicleInfo info;
 	btRaycastVehicle* vehicle;
-	btRaycastVehicle* vehicle2;
-
 };

@@ -32,21 +32,23 @@ public:
 
 	void Create_Horizontal_Large_Wall(vec3 pos);
 	void Create_Horizontal_Small_Wall(vec3 pos);
+	void Create_Horizontal_Rotate_Wall(vec3 pos);
+	void Create_Inverse_Horizontal_Rotate_Wall(vec3 pos);
+	void Create_Small_Horizontal_Rotate_Wall(vec3 pos);
+	void Create_Small_Inverse_Horizontal_Rotate_Wall(vec3 pos);
+	void Horizontal_Small_Wall(vec3 pos);
 
 	void Color_Horizontal_Large_Wall(vec3 pos);
 	void Color_Horizontal_Small_Wall(vec3 pos);
+	void Color_HorizontalSmall_Wall(vec3 pos);
+	void Color_Horizontal_Rotate_Wall(vec3 pos);
+	void Color_Inverse_Horizontal_Rotate_Wall(vec3 pos);
 
 	void CreateCircuit(vec3 pos);
 	void CreateCircuitColor(vec3 pos);
 
-public:
-	/*
-	PhysBody3D* pb_snake[MAX_SNAKE];
-	Sphere s_snake[MAX_SNAKE];
 
-	PhysBody3D* pb_snake2[MAX_SNAKE];
-	Sphere s_snake2[MAX_SNAKE];
-	*/
+public:
 
 	PhysBody3D* pb_chassis;
 	Cube p_chassis;
@@ -59,4 +61,8 @@ public:
 
 	PhysMotor3D* left_wheel;
 	PhysMotor3D* right_wheel;
+
+	int num_players;
+	int laps;
+	PhysBody3D* s;
 };
