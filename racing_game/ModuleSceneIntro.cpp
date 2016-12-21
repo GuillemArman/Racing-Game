@@ -19,7 +19,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	App->audio->PlayMusic("song.ogg",1);
+	App->audio->PlayMusic("Game/song.ogg",1);
 
 	num_players = 0;
 
