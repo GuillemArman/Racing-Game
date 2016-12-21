@@ -8,8 +8,8 @@ class Module;
 
 enum TYPE
 {
-	VEHICLE,
-	SENSOR
+	VEHICLE1,
+	VEHICLE2
 };
 
 // =================================================

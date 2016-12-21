@@ -21,10 +21,16 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void ResetInfo();
+
 public:
 
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float brake;
+
+	int laps;
+	bool add_lap;
+	bool winner;
 };

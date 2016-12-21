@@ -63,6 +63,7 @@ public:
 	PhysMotor3D* right_wheel;
 
 	int num_players;
-	int laps;
-	PhysBody3D* s;
+
+	PhysBody3D* bs;
+	PhysBody3D* es;
 };

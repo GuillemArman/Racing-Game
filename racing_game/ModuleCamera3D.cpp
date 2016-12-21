@@ -47,20 +47,20 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		if (positive)
 		{
-			if (x < 160)
+			if (x < 170)
 				x += 0.20f;
 			else
 				positive = false;
 		}
 		else
 		{
-			if (x > 0)
+			if (x > 30)
 				x -= 0.20f;
 			else
 				positive = true;
 		}
 
-		Position = { x, 80, -30 };
+		Position = { x, 120, -60 };
 		LookAt(vec3(x, 0, 50));
 	}
 
@@ -77,10 +77,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 	else if (App->scene_intro->num_players == 2)
 	{
-		Position = { 0, 95, -50 };
-		LookAt(vec3(0, 0, 60));
+		Position = { 100, 190, -80 };
+		LookAt(vec3(100, 0, 60));
 	}
-	
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

@@ -21,10 +21,22 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void ResetInfo();
+
 public:
 
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float brake;
+
+	// For 1 player
+	Timer timer;
+	float best_time;
+	bool start_timer;
+
+	// For 2 players
+	int laps;
+	bool add_lap;
+	bool winner;
 };

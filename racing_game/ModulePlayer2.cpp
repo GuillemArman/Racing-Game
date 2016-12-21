@@ -8,6 +8,9 @@
 ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
+	laps = 4;
+	add_lap = true;
+	winner = false;
 }
 
 ModulePlayer2::~ModulePlayer2()
@@ -16,7 +19,7 @@ ModulePlayer2::~ModulePlayer2()
 // Load assets
 bool ModulePlayer2::Start()
 {
-	LOG("Loading player");
+	LOG("Loading player2");
 
 	VehicleInfo car;
 
@@ -97,8 +100,8 @@ bool ModulePlayer2::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car, App->scene_intro);
-	vehicle->type = VEHICLE;
-	vehicle->SetPos(3, 12, 0);
+	vehicle->type = VEHICLE2;
+	vehicle->SetPos(3, 0, 0);
 
 	return true;
 }
@@ -106,8 +109,7 @@ bool ModulePlayer2::Start()
 // Unload assets
 bool ModulePlayer2::CleanUp()
 {
-	LOG("Unloading player");
-
+	LOG("Unloading player2");
 	return true;
 }
 
@@ -116,7 +118,7 @@ update_status ModulePlayer2::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		if (vehicle->GetKmh()<0)
 			brake = BRAKE_POWER;
@@ -125,29 +127,27 @@ update_status ModulePlayer2::Update(float dt)
 			acceleration = MAX_ACCELERATION;
 	}
 
-
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		if (turn < TURN_DEGREES)
 			turn += TURN_DEGREES;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		if (turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-
 		if (vehicle->GetKmh()>5)
 			brake = BRAKE_POWER;
 		else
 			acceleration = MIN_ACCELERATION;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
 		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
@@ -157,13 +157,26 @@ update_status ModulePlayer2::Update(float dt)
 		vehicle->SetPos(x, 10, z);
 	}
 
-	vehicle->ApplyEngineForce(acceleration);
-	vehicle->Turn(turn);
-	vehicle->Brake(brake);
-
+	if (!winner)
+	{
+		vehicle->ApplyEngineForce(acceleration);
+		vehicle->Turn(turn);
+		vehicle->Brake(brake);
+	}
 	vehicle->Render(Green);
 
+	if (laps == 0) winner = true;
+
 	return UPDATE_CONTINUE;
+}
+
+void ModulePlayer2::ResetInfo()
+{
+	laps = 4;
+	add_lap = true;
+	winner = false;
+	vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+	vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
 }
 
 
