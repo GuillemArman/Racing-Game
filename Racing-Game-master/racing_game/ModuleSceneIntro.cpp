@@ -19,6 +19,8 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
+	App->audio->PlayMusic("song.ogg",1);
+
 	num_players = 0;
 
 	App->camera->Move(vec3(1.0f, 100.0f, 60.0f));
@@ -68,7 +70,7 @@ bool ModuleSceneIntro::Start()
 
 	// Sensor end
 	Cube e_sensor(1, 5, 15);
-	e_sensor.SetPos(85, 5, 100);
+	e_sensor.SetPos(85, 1, 100);
 	es = App->physics->AddBody(e_sensor, App->scene_intro, true, 0);
 
 	return ret;
@@ -120,13 +122,13 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p(0, 1, 0, 0);
 	p.axis = false;
 	p.wire = false;
-	p.color = Blue;
+	p.color = Green;
 	//p.Render();
 
 	Cube cube(1000, 1000, 1000);
 	cube.SetPos(0, 0, 0);
 	cube.Scale(1, 0, 1);
-	cube.color = Blue;
+	cube.color = Green;
 	cube.Render();
 
 	Cube ramp_up(22, 2, 46);
@@ -334,7 +336,24 @@ void ModuleSceneIntro::Create_Inverse_Horizontal_Rotate_Wall(vec3 pos)
 	right_limit.SetRotation(30, vec3(0, 1, 0));
 	App->physics->AddBody(right_limit, this, false, 100000);
 }
+void ModuleSceneIntro::Color_Small_Horizontal_Rotate_Wall(vec3 pos)
+{
+	Cube right_limit(17, 8, 3);
+	right_limit.SetPos(pos.x, pos.y, pos.z);
+	right_limit.SetRotation(-30, vec3(0, 1, 0));
 
+	right_limit.Render();
+
+}
+void ModuleSceneIntro::Color_Small_Inverse_Horizontal_Rotate_Wall(vec3 pos)
+{
+	Cube right_limit(17, 8, 3);
+	right_limit.SetPos(pos.x, pos.y, pos.z);
+	right_limit.SetRotation(30, vec3(0, 1, 0));
+
+	right_limit.Render();
+
+}
 void ModuleSceneIntro::Create_Small_Inverse_Horizontal_Rotate_Wall(vec3 pos)
 {
 	Cube right_limit(17, 8, 3);
@@ -391,6 +410,24 @@ void ModuleSceneIntro::Color_HorizontalSmall_Wall(vec3 pos)
 
 void ModuleSceneIntro::CreateCircuit(vec3 pos)
 {
+	Create_Vertical_Small_Wall(vec3(17.5, 0, 12));
+	Create_Vertical_Small_Wall(vec3(-7.5, 0, 12));
+	Create_Vertical_Small_Wall(vec3(-7.5, 0, -3));
+	Create_Vertical_Small_Wall(vec3(-7.5, 0, -18));
+	Create_Horizontal_Large_Wall(vec3(26, 0, -26));
+	Create_Horizontal_Large_Wall(vec3(51, 0, 3));
+	Create_Horizontal_Large_Wall(vec3(121, 0, 3));
+	Create_Horizontal_Large_Wall(vec3(191, 0, 3));
+	Create_Horizontal_Large_Wall(vec3(96, 0, -26));
+	Create_Horizontal_Large_Wall(vec3(166, 0, -26));
+	Create_Horizontal_Large_Wall(vec3(236, 0, -26));
+
+	Create_Vertical_Large_Wall(vec3(263, 0, 35));
+	Create_Vertical_Small_Wall(vec3(263, 0, -7));
+
+	Create_Vertical_Large_Wall(vec3(240, 0, 37));
+
+
 	CreateLinearCircuit(vec3(7.5, 0, 54));
 	CreateLinearCircuit(vec3(7.5, 0, 150));
 	Create_Vertical_Small_Wall(vec3(17.5, 0, 190));
@@ -402,48 +439,89 @@ void ModuleSceneIntro::CreateCircuit(vec3 pos)
 	Create_Horizontal_Large_Wall(vec3(-16, 0, 229));
 	Create_Vertical_Large_Wall(vec3(-50, 0, 150));
 	Horizontal_Small_Wall(vec3(-60.5, 0, 229));
+
 	Create_Vertical_Large_Wall(vec3(-75, 0, 195));
 	Create_Vertical_Large_Wall(vec3(-75, 0, 125));
+
+
 	Create_Horizontal_Small_Wall(vec3(-13.5, 0, 114));
 	Create_Horizontal_Small_Wall(vec3(-28.5, 0, 114));
 	Create_Horizontal_Small_Wall(vec3(-43.5, 0, 114));
+
 	Create_Horizontal_Large_Wall(vec3(50.5, 0, 112.5));
 	Create_Horizontal_Large_Wall(vec3(50.5, 0, 89));
+
 	Create_Horizontal_Small_Wall(vec3(-13.5, 0, 89));
 	Create_Horizontal_Small_Wall(vec3(-28.5, 0, 89));
 	Create_Horizontal_Small_Wall(vec3(-43.5, 0, 89));
 	Create_Horizontal_Small_Wall(vec3(-57.5, 0, 89));
 	Create_Horizontal_Small_Wall(vec3(-72.5, 0, 89));
+
 	Create_Horizontal_Rotate_Wall(vec3(101.5, 0, 120));
 	Create_Inverse_Horizontal_Rotate_Wall(vec3(102.5, 0, 80));
+
 	Create_Horizontal_Rotate_Wall(vec3(175.5, 0, 80));
 	Create_Inverse_Horizontal_Rotate_Wall(vec3(175.5, 0, 120));
+
 	Create_Horizontal_Small_Wall(vec3(124, 0, 129));
 	Create_Horizontal_Small_Wall(vec3(139, 0, 129));
 	Create_Horizontal_Small_Wall(vec3(154, 0, 129));
+
 	Create_Horizontal_Small_Wall(vec3(127, 0, 73));
 	Create_Horizontal_Small_Wall(vec3(141, 0, 73));
 	Create_Horizontal_Small_Wall(vec3(154, 0, 73));
+
+
 	Create_Horizontal_Small_Wall(vec3(124, 0, 111.5));
 	Create_Horizontal_Small_Wall(vec3(139, 0, 111.5));
+
 	Create_Horizontal_Small_Wall(vec3(125, 0, 89));
 	Create_Horizontal_Small_Wall(vec3(139, 0, 89));
+
+
 	Create_Small_Horizontal_Rotate_Wall(vec3(107.5, 0, 106.5));
 	Create_Small_Inverse_Horizontal_Rotate_Wall(vec3(109.5, 0, 94));
+
 	Create_Small_Horizontal_Rotate_Wall(vec3(155.5, 0, 92));
 	Create_Small_Inverse_Horizontal_Rotate_Wall(vec3(155.5, 0, 106.5));
+
+
 	Create_Horizontal_Small_Wall(vec3(200, 0, 110.5));
 	Create_Horizontal_Small_Wall(vec3(200, 0, 88));
+
 	Create_Horizontal_Small_Wall(vec3(215, 0, 88));
 	Create_Horizontal_Small_Wall(vec3(230, 0, 88));
+
 	Create_Vertical_Large_Wall(vec3(235, 0, 124));
 	Create_Vertical_Small_Wall(vec3(210, 0, 116));
 }
 
 void ModuleSceneIntro::CreateCircuitColor(vec3 pos)
 {
+	Color_Vertical_Small_Wall(vec3(17.5, 0, 12));
+	Color_Vertical_Small_Wall(vec3(-7.5, 0, 12));
+	Color_Vertical_Small_Wall(vec3(-7.5, 0, -3));
+	Color_Vertical_Small_Wall(vec3(-7.5, 0, -18));
+	Color_Horizontal_Large_Wall(vec3(26, 0, -26));
+	Color_Horizontal_Large_Wall(vec3(51, 0, 3));
+	Color_Horizontal_Large_Wall(vec3(121, 0, 3));
+	Color_Horizontal_Large_Wall(vec3(191, 0, 3));
+	Color_Horizontal_Large_Wall(vec3(206, 0, 3));
+
+	Color_Horizontal_Large_Wall(vec3(96, 0, -26));
+	Color_Horizontal_Large_Wall(vec3(166, 0, -26));
+	Color_Horizontal_Large_Wall(vec3(229.5, 0, -26));
+
+	Color_Vertical_Large_Wall(vec3(263, 0, 35));
+	Color_Vertical_Small_Wall(vec3(263, 0, -7));
+	Color_Vertical_Small_Wall(vec3(263, 0, -18));
+
+	Color_Vertical_Large_Wall(vec3(240, 0, 37));
+
+	//start
 	ColorLinearCircuit(vec3(7.5, 0, 54));
 	ColorLinearCircuit(vec3(7.5, 0, 150));
+	Color_Vertical_Small_Wall(vec3(17.5, 0, 120));
 	Color_Vertical_Small_Wall(vec3(17.5, 0, 190));
 	Color_Vertical_Small_Wall(vec3(17.5, 0, 205));
 	Color_Vertical_Small_Wall(vec3(17.5, 0, 220));
@@ -451,44 +529,73 @@ void ModuleSceneIntro::CreateCircuitColor(vec3 pos)
 	Color_Horizontal_Small_Wall(vec3(-28.5, 0, 185));
 	Color_Horizontal_Small_Wall(vec3(-43.5, 0, 185));
 	Color_Horizontal_Large_Wall(vec3(-16, 0, 229));
+
 	Color_Horizontal_Large_Wall(vec3(-40, 0, 229));
 	Color_Vertical_Large_Wall(vec3(-50, 0, 150));
+
 	Color_HorizontalSmall_Wall(vec3(-63, 0, 229));
+
 	Color_Vertical_Large_Wall(vec3(-75, 0, 195.5));
 	Color_Vertical_Large_Wall(vec3(-75, 0, 152.5));
 	Color_Vertical_Large_Wall(vec3(-75, 0, 125));
+
+
 	Color_Horizontal_Small_Wall(vec3(-13.5, 0, 114));
 	Color_Horizontal_Small_Wall(vec3(-28.5, 0, 114));
 	Color_Horizontal_Small_Wall(vec3(-43.5, 0, 114));
+
 	Color_Horizontal_Large_Wall(vec3(50.5, 0, 111.5));
 	Color_Horizontal_Large_Wall(vec3(52.5, 0, 111.5));
 	Color_Horizontal_Large_Wall(vec3(50.5, 0, 90));
+
 	Color_Horizontal_Small_Wall(vec3(-13.5, 0, 89));
 	Color_Horizontal_Small_Wall(vec3(-28.5, 0, 89));
 	Color_Horizontal_Small_Wall(vec3(-43.5, 0, 89));
 	Color_Horizontal_Small_Wall(vec3(-57.5, 0, 89));
 	Color_Horizontal_Small_Wall(vec3(-69, 0, 89));
+
 	Color_Horizontal_Rotate_Wall(vec3(101.5, 0, 120));
 	Color_Inverse_Horizontal_Rotate_Wall(vec3(100.5, 0, 81));
+
+
 	Color_Horizontal_Small_Wall(vec3(124, 0, 129));
 	Color_Horizontal_Small_Wall(vec3(139, 0, 129));
 	Color_Horizontal_Small_Wall(vec3(154, 0, 129));
+
 	Color_Horizontal_Small_Wall(vec3(123, 0, 72));
 	Color_Horizontal_Small_Wall(vec3(126, 0, 72));
 	Color_Horizontal_Small_Wall(vec3(141, 0, 72));
 	Color_Horizontal_Small_Wall(vec3(154, 0, 72));
+
 	Color_Horizontal_Small_Wall(vec3(124, 0, 111.5));
+	Color_Horizontal_Small_Wall(vec3(122, 0, 111.5));
 	Color_Horizontal_Small_Wall(vec3(139, 0, 111.5));
+	Color_Horizontal_Small_Wall(vec3(142, 0, 111.5));
 	Color_Horizontal_Small_Wall(vec3(125, 0, 89));
+	Color_Horizontal_Small_Wall(vec3(124.5, 0, 89));
 	Color_Horizontal_Small_Wall(vec3(139, 0, 89));
+	Color_Horizontal_Small_Wall(vec3(142, 0, 89));
+
 	Color_Horizontal_Rotate_Wall(vec3(175.5, 0, 80));
 	Color_Inverse_Horizontal_Rotate_Wall(vec3(175.5, 0, 120));
+
 	Color_Horizontal_Small_Wall(vec3(198, 0, 110.5));
 	Color_Horizontal_Small_Wall(vec3(204, 0, 110.5));
 	Color_Horizontal_Small_Wall(vec3(198, 0, 88));
+
 	Color_Horizontal_Small_Wall(vec3(215, 0, 88));
 	Color_Horizontal_Small_Wall(vec3(210, 0, 88));
 	Color_Horizontal_Small_Wall(vec3(230, 0, 88));
+
 	Color_Vertical_Large_Wall(vec3(235, 0, 124));
 	Color_Vertical_Small_Wall(vec3(210, 0, 116));
+
+	Color_Small_Horizontal_Rotate_Wall(vec3(107.5, 0, 106.5));
+	Color_Small_Horizontal_Rotate_Wall(vec3(109.5, 0, 106.5));
+	Color_Small_Horizontal_Rotate_Wall(vec3(110.5, 0, 107.5));
+	Color_Small_Inverse_Horizontal_Rotate_Wall(vec3(109.5, 0, 94));
+	Color_Small_Inverse_Horizontal_Rotate_Wall(vec3(111.5, 0, 94));
+
+	Color_Small_Horizontal_Rotate_Wall(vec3(155.5, 0, 92));
+	Color_Small_Inverse_Horizontal_Rotate_Wall(vec3(155.5, 0, 106.5));
 }

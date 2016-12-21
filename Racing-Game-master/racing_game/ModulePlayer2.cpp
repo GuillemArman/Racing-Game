@@ -24,8 +24,30 @@ bool ModulePlayer2::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 2, 4);
+	car.chassis_size.Set(3, 0.8, 6);
 	car.chassis_offset.Set(0, 1.5, 0);
+
+	car.winger_size.Set(4, 0.3, 1);
+	car.winger_offset.Set(0, 2.5, -2);
+
+	car.stick_size.Set(0.3, 0.7, 0.3);
+	car.stick_offset.Set(-1, 2, -2);
+
+	car.stick2_size.Set(0.3, 0.7, 0.3);
+	car.stick2_offset.Set(1, 2, -2);
+
+	car.centre_size.Set(3, 2, 2);
+	car.centre_offset.Set(0, 2.5, 0);
+
+	car.back_size.Set(3, 0.8, 1.9);
+	car.back_offset.Set(0, 2.3, 2);
+
+	car.light1_size.Set(0.3, 0.2, 0.5);
+	car.light1_offset.Set(-1, 1.5, -2.8);
+
+	car.light2_size.Set(0.3, 0.2, 0.5);
+	car.light2_offset.Set(1, 1.5, -2.8);
+
 	car.mass = 500.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
@@ -120,7 +142,7 @@ update_status ModulePlayer2::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		if (vehicle->GetKmh()<0)
+		if (vehicle->GetKmh()<-3)
 			brake = BRAKE_POWER;
 
 		else
@@ -154,7 +176,19 @@ update_status ModulePlayer2::Update(float dt)
 
 		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
 		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
+		vehicle->SetTransform(IdentityMatrix.M);
 		vehicle->SetPos(x, 10, z);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
+	{
+		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+
+		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
+		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
+		vehicle->SetTransform(IdentityMatrix.M);
+		vehicle->SetPos(3, 0, 0);
 	}
 
 	if (!winner)
