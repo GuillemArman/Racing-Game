@@ -46,9 +46,10 @@ public:
 	void Color_Small_Horizontal_Rotate_Wall(vec3 pos);
 	void Color_Small_Inverse_Horizontal_Rotate_Wall(vec3 pos);
 
-
 	void CreateCircuit(vec3 pos);
 	void CreateCircuitColor(vec3 pos);
+	void CreateColorRamps();
+	void CreateRamps();
 
 
 public:
