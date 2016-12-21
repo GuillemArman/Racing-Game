@@ -240,7 +240,7 @@ void ModulePlayer::ResetInfo()
 	add_lap = true;
 	winner = false;
 	played = false;
-	laps = 1;
+	laps = 4;
 	vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 	vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
 	vehicle->SetTransform(IdentityMatrix.M);

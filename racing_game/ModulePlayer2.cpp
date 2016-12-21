@@ -223,7 +223,7 @@ update_status ModulePlayer2::Update(float dt)
 
 void ModulePlayer2::ResetInfo()
 {
-	laps = 1;
+	laps = 4;
 	add_lap = true;
 	winner = false;
 	played = false;
