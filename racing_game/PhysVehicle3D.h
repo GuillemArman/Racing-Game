@@ -41,6 +41,25 @@ struct VehicleInfo
 	vec3 light1_offset;
 	vec3 light2_size;
 	vec3 light2_offset;
+
+	//2 car
+	vec3 _chassis_size;
+	vec3 _chassis_offset;
+	vec3 _winger_size;
+	vec3 _winger_offset;
+	vec3 _stick_size;
+	vec3 _stick_offset;
+	vec3 _stick2_size;
+	vec3 _stick2_offset;
+	vec3 _centre_size;
+	vec3 _centre_offset;
+	vec3 _back_size;
+	vec3 _back_offset;
+	vec3 _light1_size;
+	vec3 _light1_offset;
+	vec3 _light2_size;
+	vec3 _light2_offset;
+
 	float mass;
 	float suspensionStiffness; // default to 5.88 / 10.0 offroad / 50.0 sports car / 200.0 F1 car
 	float suspensionCompression; // default to 0.83

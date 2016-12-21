@@ -28,6 +28,7 @@ bool ModulePlayer::Start()
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(3, 0.8, 6);
 	car.chassis_offset.Set(0, 1.5, 0);
+	
 
 	car.winger_size.Set(4, 0.3, 1);
 	car.winger_offset.Set(0, 2.5, -2);
@@ -50,7 +51,7 @@ bool ModulePlayer::Start()
 	car.light2_size.Set(0.3, 0.2, 0.5);
 	car.light2_offset.Set(1, 1.5, -2.8);
 
-	car.mass = 500.0f;
+	car.mass = 700.0f;
 	car.suspensionStiffness = 5.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -142,80 +143,92 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (!winner && !App->player2->winner)
 	{
-		if (vehicle->GetKmh()<-3)
-			brake = BRAKE_POWER;
-		
-		else
-			acceleration = MAX_ACCELERATION;
-	}
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			if (vehicle->GetKmh()<-3)
+				brake = BRAKE_POWER;
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		if(turn < TURN_DEGREES)
-			turn +=  TURN_DEGREES;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		if(turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-			if(vehicle->GetKmh()>5)
-			brake = BRAKE_POWER;
 			else
-			acceleration = MIN_ACCELERATION;
-	}
+				acceleration = MAX_ACCELERATION;
 
-	if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN) 
-	{
-		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+			if (a.ReadSec() > 1.5f) a.Start();
+			if (a.ReadSec() == 0.0f)
+			{
+				a.Start();
+				App->audio->PlayFx(App->audio->LoadFx("Game/FX/Accelerate.WAV"), 0);
+			}
+		}
 
-		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
-		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
-		vehicle->SetTransform(IdentityMatrix.M);
-		vehicle->SetPos(x, 10, z);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			if (turn < TURN_DEGREES)
+				turn += TURN_DEGREES;
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN)
-	{
-		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			if (turn > -TURN_DEGREES)
+				turn -= TURN_DEGREES;
+		}
 
-		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
-		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
-		vehicle->SetTransform(IdentityMatrix.M);
-		vehicle->SetPos(7, 0, 0);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		{
+			if (vehicle->GetKmh()>5)
+			{
+				brake = BRAKE_POWER;
+				if (b.ReadSec() > 1.0f) b.Start();
+				if (b.ReadSec() == 0.0f)
+				{
+					b.Start();
+					App->audio->PlayFx(App->audio->LoadFx("Game/FX/Brake.WAV"), 0);
+				}
+			}
+			else
+				acceleration = MIN_ACCELERATION;
+		}
 
-	if (!winner)
-	{
-		vehicle->ApplyEngineForce(acceleration);
-		vehicle->Turn(turn);
-		vehicle->Brake(brake);
+		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN)
+		{
+			vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+			vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+
+			int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
+			int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
+			vehicle->SetTransform(IdentityMatrix.M);
+			vehicle->SetPos(x, 10, z);
+		}
+
+		if (!winner)
+		{
+			vehicle->ApplyEngineForce(acceleration);
+			vehicle->Turn(turn);
+			vehicle->Brake(brake);
+		}
+
+		if (start_timer)
+		{
+			if (App->player->timer.ReadSec() < App->player->best_time && timer.running)
+				App->player->best_time = App->player->timer.ReadSec();
+
+			App->player->timer.Start();
+			start_timer = false;
+		}
+
+		if (laps == 0)
+		{
+			winner = true;
+			if (played == false)
+			{
+				App->audio->PlayFx(App->audio->LoadFx("Game/FX/Win.WAV"), 0);
+				played = true;
+			}
+		}
+
 	}
 
 	vehicle->Render(Red);
-
-	if (start_timer)
-	{
-		App->player->timer.Stop();
-
-		if (App->player->timer.ReadSec() < App->player->best_time)
-			App->player->best_time = App->player->timer.ReadSec();
-
-		App->player->timer.Start();
-
-		start_timer = false;
-	}
-
-	if (laps == 0) winner = true;
-
 	return UPDATE_CONTINUE;
 }
 
@@ -226,9 +239,11 @@ void ModulePlayer::ResetInfo()
 	start_timer = false;
 	add_lap = true;
 	winner = false;
-	laps = 4;
+	played = false;
+	laps = 1;
 	vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 	vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+	vehicle->SetTransform(IdentityMatrix.M);
 }
 
 

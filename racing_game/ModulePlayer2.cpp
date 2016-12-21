@@ -27,28 +27,28 @@ bool ModulePlayer2::Start()
 	car.chassis_size.Set(3, 0.8, 6);
 	car.chassis_offset.Set(0, 1.5, 0);
 
-	car.winger_size.Set(4, 0.3, 1);
-	car.winger_offset.Set(0, 2.5, -2);
+	car._winger_size.Set(4, 0.3, 1);
+	car._winger_offset.Set(0, 2.5, -2);
 
-	car.stick_size.Set(0.3, 0.7, 0.3);
-	car.stick_offset.Set(-1, 2, -2);
+	car._stick_size.Set(0.3, 0.7, 0.3);
+	car._stick_offset.Set(-1, 2, -2);
 
-	car.stick2_size.Set(0.3, 0.7, 0.3);
-	car.stick2_offset.Set(1, 2, -2);
+	car._stick2_size.Set(0.3, 0.7, 0.3);
+	car._stick2_offset.Set(1, 2, -2);
 
-	car.centre_size.Set(3, 2, 2);
-	car.centre_offset.Set(0, 2.5, 0);
+	car._centre_size.Set(3, 2, 2);
+	car._centre_offset.Set(0, 2.5, 0);
 
-	car.back_size.Set(3, 0.8, 1.9);
-	car.back_offset.Set(0, 2.3, 2);
+	car._back_size.Set(3, 0.8, 1.9);
+	car._back_offset.Set(0, 2.3, 2);
 
-	car.light1_size.Set(0.3, 0.2, 0.5);
-	car.light1_offset.Set(-1, 1.5, -2.8);
+	car._light1_size.Set(0.3, 0.2, 0.5);
+	car._light1_offset.Set(-1, 1.5, -2.8);
 
-	car.light2_size.Set(0.3, 0.2, 0.5);
-	car.light2_offset.Set(1, 1.5, -2.8);
+	car._light2_size.Set(0.3, 0.2, 0.5);
+	car._light2_offset.Set(1, 1.5, -2.8);
 
-	car.mass = 500.0f;
+	car.mass = 700.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -140,77 +140,96 @@ update_status ModulePlayer2::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (!winner && !App->player->winner)
 	{
-		if (vehicle->GetKmh()<-3)
-			brake = BRAKE_POWER;
+		if (App->scene_intro->num_players == 2)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+			{
+				if (vehicle->GetKmh()<-3)
+					brake = BRAKE_POWER;
 
-		else
-			acceleration = MAX_ACCELERATION;
-	}
+				else
+					acceleration = MAX_ACCELERATION;
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		if (turn < TURN_DEGREES)
-			turn += TURN_DEGREES;
-	}
+				if (a.ReadSec() > 1.5f) a.Start();
+				if (a.ReadSec() == 0.0f)
+				{
+					a.Start();
+					App->audio->PlayFx(App->audio->LoadFx("Game/FX/Accelerate.WAV"), 0);
+				}
+			}
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		if (turn > -TURN_DEGREES)
-			turn -= TURN_DEGREES;
-	}
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			{
+				if (turn < TURN_DEGREES)
+					turn += TURN_DEGREES;
+			}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		if (vehicle->GetKmh()>5)
-			brake = BRAKE_POWER;
-		else
-			acceleration = MIN_ACCELERATION;
-	}
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			{
+				if (turn > -TURN_DEGREES)
+					turn -= TURN_DEGREES;
+			}
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-	{
-		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+			{
+				if (vehicle->GetKmh()>5)
+				{
+					brake = BRAKE_POWER;
+					if (b.ReadSec() > 1.0f) b.Start();
+					if (b.ReadSec() == 0.0f)
+					{
+						b.Start();
+						App->audio->PlayFx(App->audio->LoadFx("Game/FX/Brake.WAV"), 0);
+					}
+				}
+				else
+					acceleration = MIN_ACCELERATION;
+			}
 
-		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
-		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
-		vehicle->SetTransform(IdentityMatrix.M);
-		vehicle->SetPos(x, 10, z);
-	}
+			if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+			{
+				vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+				vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
 
-	if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN)
-	{
-		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+				int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
+				int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
+				vehicle->SetTransform(IdentityMatrix.M);
+				vehicle->SetPos(x, 10, z);
+			}
 
-		int x = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getX();
-		int z = (int)vehicle->vehicle->getRigidBody()->getCenterOfMassPosition().getZ();
-		vehicle->SetTransform(IdentityMatrix.M);
-		vehicle->SetPos(3, 0, 0);
-	}
+			if (!winner)
+			{
+				vehicle->ApplyEngineForce(acceleration);
+				vehicle->Turn(turn);
+				vehicle->Brake(brake);
+			}
 
-	if (!winner)
-	{
-		vehicle->ApplyEngineForce(acceleration);
-		vehicle->Turn(turn);
-		vehicle->Brake(brake);
+			if (laps == 0)
+			{
+				winner = true;
+				if (played == false)
+				{
+					App->audio->PlayFx(App->audio->LoadFx("Game/FX/Win.WAV"), 0);
+					played = true;
+				}
+			}
+		}
 	}
 	vehicle->Render(Green);
-
-	if (laps == 0) winner = true;
-
 	return UPDATE_CONTINUE;
 }
 
 void ModulePlayer2::ResetInfo()
 {
-	laps = 4;
+	laps = 1;
 	add_lap = true;
 	winner = false;
+	played = false;
 	vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 	vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+	vehicle->SetTransform(IdentityMatrix.M);
 }
 
 

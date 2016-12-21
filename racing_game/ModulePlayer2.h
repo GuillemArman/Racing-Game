@@ -33,4 +33,9 @@ public:
 	int laps;
 	bool add_lap;
 	bool winner;
+
+	// For FX
+	Timer a;
+	Timer b;
+	bool played;
 };

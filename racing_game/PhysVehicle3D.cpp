@@ -51,7 +51,7 @@ void PhysVehicle3D::Render(Color color)
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
 
-	chassis.color = Blue;
+	chassis.color = color;
 	chassis.Render();
 
 	//car top
@@ -66,7 +66,7 @@ void PhysVehicle3D::Render(Color color)
 	winger.transform.M[13] += offset2.getY();
 	winger.transform.M[14] += offset2.getZ();
 
-	winger.color = Red;
+	winger.color = Black;
 	winger.Render();
 
 	// sticks
@@ -83,7 +83,6 @@ void PhysVehicle3D::Render(Color color)
 
 	stick.color = White;
 	stick.Render();
-
 
 	Cube stick2(info.stick2_size.x, info.stick2_size.y, info.stick2_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&stick2.transform);
@@ -125,7 +124,7 @@ void PhysVehicle3D::Render(Color color)
 	back.transform.M[13] += offset6.getY();
 	back.transform.M[14] += offset6.getZ();
 
-	back.color = Blue;
+	back.color = color;
 	back.Render();
 
 	// lights
@@ -155,6 +154,108 @@ void PhysVehicle3D::Render(Color color)
 
 	light2.color = Yellow;
 	light2.Render();
+
+	//car top
+
+	Cube _winger(info._winger_size.x, info._winger_size.y, info._winger_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_winger.transform);
+
+	btVector3 _offset2(info._winger_offset.x, info._winger_offset.y, info._winger_offset.z);
+	_offset2 = _offset2.rotate(q.getAxis(), q.getAngle());
+
+	_winger.transform.M[12] += _offset2.getX();
+	_winger.transform.M[13] += _offset2.getY();
+	_winger.transform.M[14] += _offset2.getZ();
+
+	_winger.color = Black;
+	_winger.Render();
+
+	// sticks
+
+	Cube _stick(info._stick_size.x, info._stick_size.y, info._stick_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_stick.transform);
+
+	btVector3 _offset3(info._stick_offset.x, info._stick_offset.y, info._stick_offset.z);
+	_offset3 = _offset3.rotate(q.getAxis(), q.getAngle());
+
+	_stick.transform.M[12] += _offset3.getX();
+	_stick.transform.M[13] += _offset3.getY();
+	_stick.transform.M[14] += _offset3.getZ();
+
+	_stick.color = White;
+	_stick.Render();
+
+
+	Cube _stick2(info._stick2_size.x, info._stick2_size.y, info._stick2_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_stick2.transform);
+
+	btVector3 _offset4(info._stick2_offset.x, info._stick2_offset.y, info._stick2_offset.z);
+	_offset4 = _offset4.rotate(q.getAxis(), q.getAngle());
+
+	_stick2.transform.M[12] += _offset4.getX();
+	_stick2.transform.M[13] += _offset4.getY();
+	_stick2.transform.M[14] += _offset4.getZ();
+
+	_stick2.color = White;
+	_stick2.Render();
+
+	// centre car
+
+	Cube _centre(info._centre_size.x, info._centre_size.y, info._centre_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_centre.transform);
+
+	btVector3 _offset5(info._centre_offset.x, info._centre_offset.y, info._centre_offset.z);
+	_offset5 = _offset5.rotate(q.getAxis(), q.getAngle());
+
+	_centre.transform.M[12] += _offset5.getX();
+	_centre.transform.M[13] += _offset5.getY();
+	_centre.transform.M[14] += _offset5.getZ();
+
+	_centre.color = Blue;
+	_centre.Render();
+
+	// front = back
+
+	Cube _back(info._back_size.x, info._back_size.y, info._back_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_back.transform);
+
+	btVector3 _offset6(info._back_offset.x, info._back_offset.y, info._back_offset.z);
+	_offset6 = _offset6.rotate(q.getAxis(), q.getAngle());
+
+	_back.transform.M[12] += _offset6.getX();
+	_back.transform.M[13] += _offset6.getY();
+	_back.transform.M[14] += _offset6.getZ();
+
+	_back.color = color;
+	_back.Render();
+
+	// lights
+
+	Cube _light1(info._light1_size.x, info._light1_size.y, info._light1_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_light1.transform);
+
+	btVector3 _offset7(info._light1_offset.x, info._light1_offset.y, info._light1_offset.z);
+	_offset7 = _offset7.rotate(q.getAxis(), q.getAngle());
+
+	_light1.transform.M[12] += _offset7.getX();
+	_light1.transform.M[13] += _offset7.getY();
+	_light1.transform.M[14] += _offset7.getZ();
+
+	_light1.color = Yellow;
+	_light1.Render();
+
+	Cube _light2(info._light2_size.x, info._light2_size.y, info._light2_size.z);
+	vehicle->getChassisWorldTransform().getOpenGLMatrix(&_light2.transform);
+
+	btVector3 _offset8(info._light2_offset.x, info._light2_offset.y, info._light2_offset.z);
+	_offset8 = _offset8.rotate(q.getAxis(), q.getAngle());
+
+	_light2.transform.M[12] += _offset8.getX();
+	_light2.transform.M[13] += _offset8.getY();
+	_light2.transform.M[14] += _offset8.getZ();
+
+	_light2.color = Yellow;
+	_light2.Render();
 }
 
 // ----------------------------------------------------------------------------

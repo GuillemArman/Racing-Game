@@ -18,9 +18,10 @@ public:
 	float ReadSec();
 	void Reset();
 
+	bool	running;
+
 private:
 
-	bool	running;
 	Uint32	started_at;
 	Uint32	stopped_at;
 };

@@ -19,7 +19,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	App->audio->PlayMusic("Game/song.ogg",1);
+	App->audio->PlayMusic("Game/Music/song.ogg", 1);
 
 	num_players = 0;
 
@@ -62,13 +62,13 @@ update_status ModuleSceneIntro::Update(float dt)
 
 		if (App->player2->IsEnabled())
 		{
-			App->player2->vehicle->SetPos(0, 0, -200);
 			App->player2->ResetInfo();
+			App->player2->vehicle->SetPos(0, 0, -200);
 		}
 
 		App->player->Enable();
-		App->player->vehicle->SetPos(3, 0, 0);
 		App->player->ResetInfo();
+		App->player->vehicle->SetPos(3, 0, 0);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
@@ -76,12 +76,12 @@ update_status ModuleSceneIntro::Update(float dt)
 		num_players = 2;
 
 		App->player->Enable();
-		App->player->vehicle->SetPos(7, 0, 0);
 		App->player->ResetInfo();
+		App->player->vehicle->SetPos(7, 0, 0);
 
 		App->player2->Enable();
-		App->player2->vehicle->SetPos(1, 0, 0);
 		App->player2->ResetInfo();
+		App->player2->vehicle->SetPos(1, 0, 0);
 	}
 
 	// ----------------------------------------------------------

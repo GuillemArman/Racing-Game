@@ -51,7 +51,6 @@ public:
 	void CreateColorRamps();
 	void CreateRamps();
 
-
 public:
 
 	PhysBody3D* pb_chassis;

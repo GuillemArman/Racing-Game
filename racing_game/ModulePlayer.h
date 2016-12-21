@@ -5,8 +5,8 @@
 
 struct PhysVehicle3D;
 
-#define MAX_ACCELERATION 1000.0f
-#define MIN_ACCELERATION -700.0f
+#define MAX_ACCELERATION 300.0f
+#define MIN_ACCELERATION -200.0f
 
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 350.0F
@@ -39,4 +39,9 @@ public:
 	int laps;
 	bool add_lap;
 	bool winner;
+
+	// For FX
+	Timer a;
+	Timer b;
+	bool played;
 };
