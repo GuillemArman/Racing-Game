@@ -573,6 +573,8 @@ void ModuleSceneIntro::CreateRamps()
 
 void ModuleSceneIntro::CreateColorRamps()
 {
+	ColorLinearCircuit(vec3(7.5, 8, 104));
+
 	Cube ramp_up(22, 2, 46);
 	ramp_up.color = White;
 	ramp_up.SetPos(5, 0, 69.5);
